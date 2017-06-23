@@ -1,0 +1,59 @@
+
+spring:
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password:
+
+  redis:
+    host: localhost
+    password:
+    pool:
+      max-active: 8
+      max-idle: 8
+      max-wait: 1
+      min-idle: 0
+    port: 6379
+    timeout: 0
+
+
+mybatis:
+  type-aliases-package: com.xuhu.dao.model
+  mapper-locations: classpath:mapper/*.xml
+
+
+mapper:
+    mappers:
+        - com.xuhu.utils.MyMapper
+    not-empty: false
+    identity: MYSQL
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+regCenter:
+  serverList: localhost:2181
+  namespace: elastic-job-lite-springboot
+
+simpleJob:
+  cron: 0/5 * * * * ?
+  shardingTotalCount: 10
+  shardingItemParameters: 0=A,1=B,2=C,3=D,4=E,5=F,6=G,7=H,8=I,9=J
+
+#logging:
+#  level:
+#    org.springframework.web: error
+#    com.xuhu: info
+
+
+
+
+
+

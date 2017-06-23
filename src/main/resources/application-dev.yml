@@ -1,0 +1,23 @@
+server:
+  context-path: /demo
+  port: 8081
+
+data:
+  result: SUCCESS
+  msg: "${data.result}->DEV"
+
+mybatis:
+  type-aliases-package: com.xuhu.dao.model
+  mapper-locations: classpath:mapper/*.xml
+
+mapper:
+  mappers:
+      - com.xuhu.utils.MyMapper
+  not-empty: false
+  identity: MYSQL
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
