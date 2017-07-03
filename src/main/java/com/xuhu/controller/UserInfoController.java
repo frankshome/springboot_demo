@@ -1,15 +1,22 @@
 package com.xuhu.controller;
 
 import com.xuhu.biz.IUserInfoService;
+import com.xuhu.constant.ResultCodeEnum;
 import com.xuhu.dao.model.UserInfo;
 import com.xuhu.utils.IDUtil;
+import com.xuhu.utils.Result;
+import com.xuhu.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -19,6 +26,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserInfoController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private IUserInfoService userInfoService;
@@ -39,12 +48,15 @@ public class UserInfoController {
     })
 
     @PostMapping("/addUser")
-    public String add(UserInfo userInfo){
+    public Result add(@RequestBody @Valid UserInfo userInfo, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            String errMsg = bindingResult.getFieldError().getDefaultMessage();
+            return ResultUtil.error(ResultCodeEnum.ILLEGAL_PARAM, errMsg);
+        }
         userInfo.setId(IDUtil.UUID());
-
         userInfoService.addUser(userInfo);
 
-        return "SUCCESS";
+        return ResultUtil.success(userInfo);
     }
 
     @ApiOperation(value = "获取用户列表信息", notes = "根据用户传入的page获取用户列表")

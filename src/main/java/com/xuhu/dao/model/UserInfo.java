@@ -1,15 +1,23 @@
 package com.xuhu.dao.model;
 
 import com.alibaba.fastjson.JSON;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "USER_INFO")
 public class UserInfo extends BaseEntity {
 
+    @NotBlank(message = "姓名不能为空")
     @Column(name = "USER_NAME")
     private String name;
 
+    @NotNull(message = "年龄不能为空")
+    @Min(value = 0, message = "年龄不能小于0岁")
+    @Max(value = 100, message = "年龄不能大于100岁")
     @Column(name = "AGE")
     private Integer age;
 
