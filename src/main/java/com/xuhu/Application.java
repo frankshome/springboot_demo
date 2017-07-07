@@ -14,11 +14,13 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ImportResource;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 
 @SpringBootApplication
+@ImportResource("classpath:config.xml")
 @MapperScan(basePackages = "com.xuhu.dao.mapper")
 public class Application {
 

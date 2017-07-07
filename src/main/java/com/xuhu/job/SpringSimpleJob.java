@@ -4,6 +4,7 @@ import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.apache.ibatis.annotations.Case;
 
 import java.util.Date;
 
@@ -13,9 +14,19 @@ import java.util.Date;
 public class SpringSimpleJob implements SimpleJob {
 
     @Override
-    public void execute(ShardingContext shardingContext) {
-        System.out.println(String.format("Date:%s,Item:%s,Thread:%s",
-                DateFormatUtils.ISO_8601_EXTENDED_DATETIME_TIME_ZONE_FORMAT.format(new Date()),
-                shardingContext.getShardingParameter(), Thread.currentThread().getName()));
+    public void execute(ShardingContext context) {
+        switch (context.getShardingItem()){
+            case 0:
+                System.out.println("000000000000000");
+                break;
+            case 1:
+                System.out.println("111111111111111");
+                break;
+            case 2:
+                System.out.println("222222222222222");
+            default:
+                break;
+        }
+
     }
 }
