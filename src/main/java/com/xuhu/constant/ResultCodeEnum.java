@@ -6,7 +6,8 @@ package com.xuhu.constant;
 public enum ResultCodeEnum {
     SUCCESS("0000", "成功"),
     FAIL("0001", "失败"),
-    ILLEGAL_PARAM("0002", "参数不合法");
+    ILLEGAL_PARAM("0002", "参数不合法"),
+    UNKNOWN_EXCEPTION("0003", "未知异常");
 
     ResultCodeEnum(String code, String desc) {
         this.code = code;

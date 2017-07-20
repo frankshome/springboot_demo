@@ -3,6 +3,7 @@ package com.xuhu.controller;
 import com.xuhu.biz.IUserInfoService;
 import com.xuhu.constant.ResultCodeEnum;
 import com.xuhu.dao.model.UserInfo;
+import com.xuhu.utils.DemoException;
 import com.xuhu.utils.IDUtil;
 import com.xuhu.utils.Result;
 import com.xuhu.utils.ResultUtil;
@@ -35,9 +36,9 @@ public class UserInfoController {
 
     @ApiOperation("获取用户列表")
     @GetMapping("/getAll")
-    public List<UserInfo> getAll(){
+    public Result<List<UserInfo>> getAll(){
         List<UserInfo> userInfos = userInfoService.findAll();
-        return userInfos;
+        return ResultUtil.success(userInfos);
 //        return null;
     }
 
@@ -48,7 +49,7 @@ public class UserInfoController {
     })
 
     @PostMapping("/addUser")
-    public Result add(@RequestBody @Valid UserInfo userInfo, BindingResult bindingResult){
+    public Result<UserInfo> add(@RequestBody @Valid UserInfo userInfo, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             String errMsg = bindingResult.getFieldError().getDefaultMessage();
             return ResultUtil.error(ResultCodeEnum.ILLEGAL_PARAM, errMsg);
@@ -79,6 +80,16 @@ public class UserInfoController {
         return userInfoService.getUserById(userId);
     }
 
+    @GetMapping("/test/{num}")
+    public Result<Integer> testException(@PathVariable("num") Integer num) throws Exception {
+        if (num < 5){
+            throw new DemoException(ResultCodeEnum.ILLEGAL_PARAM, String.format("num=%d", num));
+        }else if (num > 10){
+            throw new Exception("erroe level Exception");
+        }
+
+        return ResultUtil.success(num);
+    }
 
 
 }

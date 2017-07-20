@@ -27,7 +27,7 @@ public class ResultUtil {
     public static Result error(ResultCodeEnum codeEnum, String errMsg){
         Result result = new Result();
         result.setCode(codeEnum.code());
-        result.setMsg(String.format("%s:%s", codeEnum.desc(), errMsg));
+        result.setMsg(String.format("%s,%s", codeEnum.desc(), errMsg));
 
         return result;
     }
